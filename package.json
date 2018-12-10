@@ -1,0 +1,36 @@
+{
+  "name": "react-cloudinary-lazy-image",
+  "version": "1.0.0",
+  "description": "Lazy-loading React image component based on Cloudinary api",
+  "main": "index.js",
+  "repository": "https://github.com/mattjarzeb/react-cloudinary-lazy-image",
+  "homepage": "https://github.com/mattjarzeb/react-cloudinary-lazy-image#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/babel src --out-dir .",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "react-component",
+    "cloudinary",
+    "lazy-loading",
+    "images"
+  ],
+  "author": "Mateusz Jarzębski <matt@teacode.io>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "prop-types": "^15.6.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "install": "^0.12.2",
+    "npm": "^6.4.1"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
+  }
+}
