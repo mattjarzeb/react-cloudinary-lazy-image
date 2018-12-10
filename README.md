@@ -61,4 +61,4 @@ by setting `urlParams`.
 | `backgroundColor`      | `string` / `bool`   | Set a colored background placeholder instead of "blur-up". If true, uses _default_ "lightgray" color. You can also pass in any valid color string. |
 | `onLoad`               | `func`              | A callback that is called when the full-size image has loaded.                                                                                     |
 | `onError`              | `func`              | A callback that is called when the image fails to load.                                                                                            |
-|
+
