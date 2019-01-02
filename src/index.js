@@ -324,7 +324,7 @@ class Image extends React.Component {
 }
 
 Image.defaultProps = {
-  cloudName: process.env.CLOUD_NAME,
+  cloudName: process.env.CLOUD_NAME || process.env.REACT_APP_CLOUD_NAME,
   fadeIn: true,
   alt: ``
 }
