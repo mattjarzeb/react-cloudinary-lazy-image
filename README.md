@@ -50,7 +50,7 @@ by setting `urlParams`.
 | `fixed`                | `object`            | Object with 'width' and 'height' properties                                                                                                        |
 | `fluid`                | `object`            | Object with 'maxWidth' property. Optionally step, _default_=150                                                                                    |
 | `fadeIn`               | `bool`              | Defaults to fading in the image on load                                                                                                            |
-| `cloudName`            | `string`            | Cloudinary cloud name, _default_=process.env.CLOUD_NAME                                                                                            |
+| `cloudName`            | `string`            | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                        |
 | `imageName`            | `string`            | Cloudinary publicId                                                                                                                                |
 | `urlParams`            | `string`            | Cloudinary image transformations params                                                                                                            |
 | `title`                | `string`            | Passed to the `img` element                                                                                                                        |
