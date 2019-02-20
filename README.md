@@ -48,11 +48,11 @@ by setting `urlParams`.
 | Name                   | Type                | Description                                                                                                                                        |
 | ---------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `fixed`                | `object`            | Object with 'width' and 'height' properties                                                                                                        |
-| `fluid`                | `object`            | Object with 'maxWidth' property. Optionally step, _default_=150                                                                                    |
+| `fluid`                | `object`            | Object with 'maxWidth' required property. Optionally step, _default_=150 and 'height'. If height not set, uses 'c_scale' otherwise 'c_mfit'        |
 | `fadeIn`               | `bool`              | Defaults to fading in the image on load                                                                                                            |
 | `cloudName`            | `string`            | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                        |
 | `imageName`            | `string`            | Cloudinary publicId                                                                                                                                |
-| `urlParams`            | `string`            | Cloudinary image transformations params                                                                                                            |
+| `urlParams`            | `string`            | Cloudinary image transformations params. Overrides default 'c_scale' or 'c_mfit'                                                                   |
 | `title`                | `string`            | Passed to the `img` element                                                                                                                        |
 | `alt`                  | `string`            | Passed to the `img` element                                                                                                                        |
 | `style`                | `object`            | Spread into the default styles of the wrapper element                                                                                              |

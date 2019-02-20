@@ -7,7 +7,7 @@ const imageCache = {}
 const inImageCache = props => {
   const image = props.fluid || props.fixed
   const urlParams = props.fluid
-    ? `${props.urlParams || 'c_scale'},w_${image.maxWidth}`
+    ? `${props.urlParams || image.height ? `c_mfit` : 'c_scale'},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     : `${props.urlParams || 'c_mfit'},w_${image.width},h_${image.height}`
   // Find src
   const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.imageName}`
@@ -175,13 +175,13 @@ class Image extends React.Component {
     let size = 150
     const results = []
     while (size < image.maxWidth) {
-      const params = `${urlCore},w_${size}`
+      const params = `${urlCore},w_${size}${image.height ? `,h_${image.height}` : ''}`
       results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.imageName} ${size}w`)
       size = size + step
     }
 
     results.push(
-      `https://res.cloudinary.com/${this.props.cloudName}/image/upload/${urlCore},w_${image.maxWidth}/${this.props.imageName} ${image.maxWidth}w`
+      `https://res.cloudinary.com/${this.props.cloudName}/image/upload/${urlCore},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}/${this.props.imageName} ${image.maxWidth}w`
     )
     return results.join(',')
   }
@@ -244,7 +244,7 @@ class Image extends React.Component {
         left: 0
       }
       const urlCore = urlParams || `c_scale`
-      urlParams = urlParams ? `${urlParams},w_${image.maxWidth}` : `c_scale,w_${image.maxWidth}`
+      urlParams = `${urlParams || image.height ? `c_mfit` : 'c_scale'},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
       srcSet = this.createBrakePointsFluid(urlCore)
     }
     if (fixed) {
@@ -336,6 +336,7 @@ const fixedObject = PropTypes.shape({
 
 const fluidObject = PropTypes.shape({
   maxWidth: PropTypes.number.isRequired,
+  height: PropTypes.number,
   step: PropTypes.number
 })
 
