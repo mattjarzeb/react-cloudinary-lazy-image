@@ -243,7 +243,7 @@ class Image extends React.Component {
         right: 0,
         left: 0
       }
-      const urlCore = urlParams || `c_scale`
+      const urlCore = urlParams || image.height ? `c_mfit` : 'c_scale'
       urlParams = `${urlParams || image.height ? `c_mfit` : 'c_scale'},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
       srcSet = this.createBrakePointsFluid(urlCore)
     }
