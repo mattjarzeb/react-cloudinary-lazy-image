@@ -1,14 +1,35 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const makeUrlParams = props => {
+  let { urlParams, imgFormat, quality, fluid } = props
+  imgFormat = typeof imgFormat `boolean`
+    ? imgFormat
+      ? `f_auto` : ''
+    : imgFormat
+  quality = typeof quality === `boolean`
+    ? quality
+      ? `q_auto` : ''
+    : typeof quality === `string` && quality.includes(`q_auto`)
+      ? `q_auto:${quality}`
+      : quality
+  if (!urlParams || !urlParams.length) {
+    urlParams = 'c_lfill'
+    if (fluid && !fluid.height) urlParams = 'c_scale'
+  }
+  const toUrl = [imgFormat, quality, urlParams].filter(e => e && e.length)
+  return toUrl.join(',')
+}
+
 // Cache if we've seen an image before so we don't both with
 // lazy-loading & fading in on subsequent mounts.
 const imageCache = {}
 const inImageCache = props => {
   const image = props.fluid || props.fixed
-  const urlParams = props.fluid
-    ? `${props.urlParams || image.height ? `c_mfit` : 'c_scale'},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
-    : `${props.urlParams || 'c_mfit'},w_${image.width},h_${image.height}`
+  let urlParams = makeUrlParams(props)
+  urlParams = props.fluid
+    ? `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
+    : `${urlParams},w_${image.width},h_${image.height}`
   // Find src
   const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.imageName}`
 
@@ -199,7 +220,8 @@ class Image extends React.Component {
       fixed,
       backgroundColor
     } = this.props
-    let { urlParams } = this.props
+
+    let urlParams = makeUrlParams(this.props)
 
     const bgColor = typeof backgroundColor === `boolean` ? `lightgray` : backgroundColor
 
@@ -243,9 +265,8 @@ class Image extends React.Component {
         right: 0,
         left: 0
       }
-      const urlCore = urlParams || image.height ? `c_mfit` : 'c_scale'
-      urlParams = `${urlParams || image.height ? `c_mfit` : 'c_scale'},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
-      srcSet = this.createBrakePointsFluid(urlCore)
+      srcSet = this.createBrakePointsFluid(urlParams)
+      urlParams = `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     }
     if (fixed) {
       image = fixed
@@ -264,9 +285,8 @@ class Image extends React.Component {
         opacity: !this.state.imgLoaded ? 1 : 0,
         transitionDelay: `0.25s`
       }
-      const urlCore = urlParams || `c_mfit`
-      urlParams = urlParams ? `${urlParams},w_${image.width},h_${image.height}` : `c_mfit,w_${image.width},h_${image.height}`
-      srcSet = this.createBrakePointsFixed(urlCore)
+      srcSet = this.createBrakePointsFixed(urlParams)
+      urlParams = `${urlParams},w_${image.width},h_${image.height}`
     }
 
     if (style.display === `inherit`) {
@@ -281,7 +301,7 @@ class Image extends React.Component {
           {/* Show a blurred version. */}
           {!bgColor &&
           <Img
-            src={`https://res.cloudinary.com/${cloudName}/image/upload/c_scale,w_10/${imageName}`}
+            src={`https://res.cloudinary.com/${cloudName}/image/upload/c_scale,w_20,f_auto/${imageName}`}
             {...placeholderImageProps}
           />
           }
@@ -326,7 +346,9 @@ class Image extends React.Component {
 Image.defaultProps = {
   cloudName: process.env.CLOUD_NAME || process.env.REACT_APP_CLOUD_NAME,
   fadeIn: true,
-  alt: ``
+  alt: ``,
+  imgFormat: true,
+  quality: true
 }
 
 const fixedObject = PropTypes.shape({
@@ -354,7 +376,9 @@ Image.propTypes = {
   placeholderStyle: PropTypes.object,
   backgroundColor: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   onLoad: PropTypes.func,
-  onError: PropTypes.func
+  onError: PropTypes.func,
+  imgFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  quality: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 
 export default Image
