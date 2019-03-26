@@ -49,7 +49,7 @@ by setting `urlParams`. You can also find all formats that can be passed to `img
 | Name                   | Type                | Description                                                                                                                                          |
 | ---------------------- | ------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `fixed`                | `object`            | Object with 'width' and 'height' properties                                                                                                          |
-| `fluid`                | `object`            | Object with 'maxWidth' required property. Optionally step, _default_=150 and 'height'. If height not set, uses 'c_scale' otherwise 'c_mfit'          |
+| `fluid`                | `object`            | Object with 'maxWidth' required property. Optionally step, _default_=150 and 'height'. If height not set, uses 'c_scale' otherwise 'c_lfill'          |
 | `fadeIn`               | `bool`              | Defaults to fading in the image on load                                                                                                              |
 | `cloudName`            | `string`            | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                          |
 | `imageName`            | `string`            | Cloudinary publicId                                                                                                                                  |

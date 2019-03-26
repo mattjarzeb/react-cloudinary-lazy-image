@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const makeUrlParams = props => {
   let { urlParams, imgFormat, quality, fluid } = props
-  imgFormat = typeof imgFormat `boolean`
+  imgFormat = typeof imgFormat === `boolean`
     ? imgFormat
       ? `f_auto` : ''
     : imgFormat
