@@ -6,7 +6,7 @@ Optimised images with Cloudinary.
 The component is based on [Gatsby image](https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-image) by Kyle Mathew,
 however instead of GraphQL and Gatsby it uses Cloudinary API. Have a speed and optimized gatsby-images without gatsby.
 
-![](./demo/demo-react-lazy.gif)
+![](./demo/demo.gif)
 
 ## Covers
 
