@@ -190,13 +190,14 @@ class Image extends React.Component {
     }
     return results.join(',')
   }
+
   createBrakePointsFluid (urlCore) {
     const image = this.props.fluid
     const step = image.step || 150
     let size = 150
-    const results = []
+    const results = []    
     while (size < image.maxWidth) {
-      const params = `${urlCore},w_${size}${image.height ? `,h_${image.height}` : ''}`
+      const params = `${urlCore},w_${size}${image.height ? `,h_${Math.ceil(size * this.getAspectRatio(image))}` : ''}`
       results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.imageName} ${size}w`)
       size = size + step
     }
@@ -205,6 +206,12 @@ class Image extends React.Component {
       `https://res.cloudinary.com/${this.props.cloudName}/image/upload/${urlCore},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}/${this.props.imageName} ${image.maxWidth}w`
     )
     return results.join(',')
+  }
+
+  getAspectRatio(image) {
+    return image.height > image.maxWidth
+      ? image.height / image.maxWidth
+      : image.maxWidth / image.height
   }
 
   render () {

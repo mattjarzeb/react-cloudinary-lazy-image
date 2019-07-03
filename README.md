@@ -60,7 +60,7 @@ export default ({publicId}) => (
             cloudName={'cloud'}
             imageName={publicId}
             fluid={{
-                width: 300,
+                maxWidth: 300,
                 height: 300
             }}
             style={{
@@ -87,23 +87,23 @@ by setting `urlParams`. You can also find all formats that can be passed to `img
 
 ## Props
 
-| Name                   | Type                | Description                                                                                                                                          |
-| ---------------------- | ------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `fixed`                | `object`            | Object with 'width' and 'height' properties                                                                                                          |
-| `fluid`                | `object`            | Object with 'maxWidth' required property. Optionally step, _default_=150 and 'height'. If height not set, uses 'c_scale' otherwise 'c_lfill'         |
-| `fadeIn`               | `bool`              | Defaults to fading in the image on load                                                                                                              |
-| `cloudName`            | `string`            | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                          |
-| `imageName`            | `string`            | Cloudinary publicId                                                                                                                                  |
-| `urlParams`            | `string`            | Cloudinary image transformations params. Overrides default 'c_lfill' or 'c_scale'                                                                    |
-| `title`                | `string`            | Passed to the `img` element                                                                                                                          |
-| `alt`                  | `string`            | Passed to the `img` element                                                                                                                          |
-| `style`                | `object`            | Spread into the default styles of the wrapper element                                                                                                |
-| `imgStyle`             | `object`            | Spread into the default styles of the actual `img` element                                                                                           |
-| `placeholderStyle`     | `object`            | Spread into the default styles of the placeholder `img` element                                                                                      |
-| `backgroundColor`      | `string` / `bool`   | Set a colored background placeholder instead of "blur-up". If true, uses _default_ "lightgray" color. You can also pass in any valid color string.   |
-| `onLoad`               | `func`              | A callback that is called when the full-size image has loaded.                                                                                       |
-| `onError`              | `func`              | A callback that is called when the image fails to load.                                                                                              |
-| `imgFormat`            | `string` / `bool`   | Allow Cloudinary to format image. By default is set to 'f_auto'. Can be switch off by passing 'false' or be formatted to specific format (ex. 'webp')|
-| `quality`              | `string` / `bool`   | Allow Cloudinary to change quality of image. By default is set to 'q_auto'. Can be switch off by passing 'false' or to specific value (ex. 'best')   |
+| Name               | Type              | Description                                                                                                                                           |
+| ------------------ | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fixed`            | `object`          | Object with 'width' and 'height' properties                                                                                                           |
+| `fluid`            | `object`          | Object with 'maxWidth' required property. Optionally step, _default_=150 and 'height'. If height not set, uses 'c_scale' otherwise 'c_lfill'          |
+| `fadeIn`           | `bool`            | Defaults to fading in the image on load                                                                                                               |
+| `cloudName`        | `string`          | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                           |
+| `imageName`        | `string`          | Cloudinary publicId                                                                                                                                   |
+| `urlParams`        | `string`          | Cloudinary image transformations params. Overrides default 'c_lfill' or 'c_scale'                                                                     |
+| `title`            | `string`          | Passed to the `img` element                                                                                                                           |
+| `alt`              | `string`          | Passed to the `img` element                                                                                                                           |
+| `style`            | `object`          | Spread into the default styles of the wrapper element                                                                                                 |
+| `imgStyle`         | `object`          | Spread into the default styles of the actual `img` element                                                                                            |
+| `placeholderStyle` | `object`          | Spread into the default styles of the placeholder `img` element                                                                                       |
+| `backgroundColor`  | `string` / `bool` | Set a colored background placeholder instead of "blur-up". If true, uses _default_ "lightgray" color. You can also pass in any valid color string.    |
+| `onLoad`           | `func`            | A callback that is called when the full-size image has loaded.                                                                                        |
+| `onError`          | `func`            | A callback that is called when the image fails to load.                                                                                               |
+| `imgFormat`        | `string` / `bool` | Allow Cloudinary to format image. By default is set to 'f_auto'. Can be switch off by passing 'false' or be formatted to specific format (ex. 'webp') |
+| `quality`          | `string` / `bool` | Allow Cloudinary to change quality of image. By default is set to 'q_auto'. Can be switch off by passing 'false' or to specific value (ex. 'best')    |
 
 
