@@ -31,7 +31,7 @@ const inImageCache = props => {
     ? `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     : `${urlParams},w_${image.width},h_${image.height}`
   // Find src
-  const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${this.props.version}/${props.imageName}`
+  const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.version}/${props.imageName}`
 
   if (imageCache[src]) {
     return true
@@ -355,6 +355,7 @@ Image.defaultProps = {
   cloudName: process.env.CLOUD_NAME || process.env.REACT_APP_CLOUD_NAME,
   fadeIn: true,
   alt: ``,
+  version: ``,
   imgFormat: true,
   quality: true
 }
