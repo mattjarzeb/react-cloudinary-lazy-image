@@ -31,7 +31,7 @@ const inImageCache = props => {
     ? `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     : `${urlParams},w_${image.width},h_${image.height}`
   // Find src
-  const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.imageName}`
+  const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${this.props.version}/${props.imageName}`
 
   if (imageCache[src]) {
     return true
@@ -186,7 +186,7 @@ class Image extends React.Component {
     const image = this.props.fixed
     for (let i = 1; i < 3; i++) {
       const params = `${urlCore},w_${image.width * i},h_${image.height * i}`
-      results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.imageName} ${i}x`)
+      results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.version}/${this.props.imageName} ${i}x`)
     }
     return results.join(',')
   }
@@ -195,15 +195,15 @@ class Image extends React.Component {
     const image = this.props.fluid
     const step = image.step || 150
     let size = 150
-    const results = []    
+    const results = []
     while (size < image.maxWidth) {
       const params = `${urlCore},w_${size}${image.height ? `,h_${Math.ceil(size * this.getAspectRatio(image))}` : ''}`
-      results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.imageName} ${size}w`)
+      results.push(`https://res.cloudinary.com/${this.props.cloudName}/image/upload/${params}/${this.props.version}/${this.props.imageName} ${size}w`)
       size = size + step
     }
 
     results.push(
-      `https://res.cloudinary.com/${this.props.cloudName}/image/upload/${urlCore},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}/${this.props.imageName} ${image.maxWidth}w`
+      `https://res.cloudinary.com/${this.props.cloudName}/image/upload/${urlCore},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}/${this.props.version}/${this.props.imageName} ${image.maxWidth}w`
     )
     return results.join(',')
   }
@@ -241,6 +241,7 @@ class Image extends React.Component {
     }
 
     const imageStyle = {
+      position: 'relative',
       opacity: this.state.imgLoaded || this.state.fadeIn === false ? 1 : 0,
       transition: this.state.fadeIn === true ? `opacity 0.5s` : `none`,
       ...imgStyle
@@ -308,7 +309,7 @@ class Image extends React.Component {
           {/* Show a blurred version. */}
           {!bgColor &&
           <Img
-            src={`https://res.cloudinary.com/${cloudName}/image/upload/c_scale,w_20,f_auto/${imageName}`}
+            src={`https://res.cloudinary.com/${cloudName}/image/upload/c_scale,w_20,f_auto/${this.props.version}/${imageName}`}
             {...placeholderImageProps}
           />
           }
@@ -326,7 +327,7 @@ class Image extends React.Component {
             <Img
               alt={alt}
               title={title}
-              src={`https://res.cloudinary.com/${cloudName}/image/upload/${urlParams}/${imageName}`}
+              src={`https://res.cloudinary.com/${cloudName}/image/upload/${urlParams}/${this.props.version}/${imageName}`}
               srcSet={srcSet}
               style={imageStyle}
               ref={this.imageRef}
@@ -386,6 +387,7 @@ Image.propTypes = {
   onError: PropTypes.func,
   imgFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   quality: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  version: PropTypes.string
 }
 
 export default Image

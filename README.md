@@ -105,5 +105,6 @@ by setting `urlParams`. You can also find all formats that can be passed to `img
 | `onError`          | `func`            | A callback that is called when the image fails to load.                                                                                               |
 | `imgFormat`        | `string` / `bool` | Allow Cloudinary to format image. By default is set to 'f_auto'. Can be switch off by passing 'false' or be formatted to specific format (ex. 'webp') |
 | `quality`          | `string` / `bool` | Allow Cloudinary to change quality of image. By default is set to 'q_auto'. Can be switch off by passing 'false' or to specific value (ex. 'best')    |
+| `version`          | `string`          | Set Cloudinary optional version param. [Doc](https://cloudinary.com/documentation/advanced_url_delivery_options#asset_versions).                      |
 
 
