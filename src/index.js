@@ -261,6 +261,8 @@ class Image extends React.Component {
       divStyle = {
         position: `relative`,
         overflow: `hidden`,
+        width: '100%',
+        height: '100%',
         ...style
       }
       bgPlaceholderStyles = {
