@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const makeUrlParams = props => {
-  let { urlParams, imgFormat, quality, fluid } = props
+  let { urlParams, imgFormat, quality, fluid, blurUrlParams, useUrlParamsToBlur, blurSize } = props
   imgFormat = typeof imgFormat === `boolean`
     ? imgFormat
       ? `f_auto` : ''
@@ -17,8 +17,21 @@ const makeUrlParams = props => {
     urlParams = 'c_lfill'
     if (fluid && !fluid.height) urlParams = 'c_scale'
   }
+  if (!blurUrlParams || !blurUrlParams.length) {
+    blurUrlParams = `c_scale,w_${blurSize}`
+  } else {
+    blurUrlParams = `${blurUrlParams},w_${blurSize}`
+  }
+  if (useUrlParamsToBlur) {
+    blurUrlParams = `${urlParams},w_${blurSize}`
+  }
   const toUrl = [imgFormat, quality, urlParams].filter(e => e && e.length)
-  return toUrl.join(',')
+  const toBlurUrl = [imgFormat, quality, blurUrlParams].filter(e => e && e.length)
+  return {
+    urlParams: toUrl.join(','),
+    blurUrlParams: useUrlParamsToBlur ? toUrl.join(',') : toBlurUrl.join(',')
+  }
+
 }
 
 // Cache if we've seen an image before so we don't both with
@@ -26,7 +39,7 @@ const makeUrlParams = props => {
 const imageCache = {}
 const inImageCache = props => {
   const image = props.fluid || props.fixed
-  let urlParams = makeUrlParams(props)
+  let { urlParams } = makeUrlParams(props)
   urlParams = props.fluid
     ? `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     : `${urlParams},w_${image.width},h_${image.height}`
@@ -228,7 +241,7 @@ class Image extends React.Component {
       backgroundColor
     } = this.props
 
-    let urlParams = makeUrlParams(this.props)
+    let {urlParams, blurUrlParams} = makeUrlParams(this.props)
 
     const bgColor = typeof backgroundColor === `boolean` ? `lightgray` : backgroundColor
 
@@ -311,7 +324,7 @@ class Image extends React.Component {
           {/* Show a blurred version. */}
           {!bgColor &&
           <Img
-            src={`https://res.cloudinary.com/${cloudName}/image/upload/c_scale,w_20,f_auto/${this.props.version}/${imageName}`}
+            src={`https://res.cloudinary.com/${cloudName}/image/upload/${blurUrlParams}/${this.props.version}/${imageName}`}
             {...placeholderImageProps}
           />
           }
@@ -359,7 +372,9 @@ Image.defaultProps = {
   alt: ``,
   version: ``,
   imgFormat: true,
-  quality: true
+  quality: true,
+  blurSize: 20,
+  useUrlParamsToBlur: false
 }
 
 const fixedObject = PropTypes.shape({
@@ -370,7 +385,7 @@ const fixedObject = PropTypes.shape({
 const fluidObject = PropTypes.shape({
   maxWidth: PropTypes.number.isRequired,
   height: PropTypes.number,
-  step: PropTypes.number
+  step: PropTypes.number,
 })
 
 Image.propTypes = {
@@ -390,7 +405,10 @@ Image.propTypes = {
   onError: PropTypes.func,
   imgFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   quality: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  version: PropTypes.string
+  version: PropTypes.string,
+  blurSize: PropTypes.number,
+  blurUrlParams: PropTypes.string,
+  useUrlParamsToBlur: PropTypes.bool
 }
 
 export default Image
