@@ -27,9 +27,10 @@ const makeUrlParams = props => {
   }
   const toUrl = [imgFormat, quality, urlParams].filter(e => e && e.length)
   const toBlurUrl = [imgFormat, quality, blurUrlParams].filter(e => e && e.length)
+
   return {
     urlParams: toUrl.join(','),
-    blurUrlParams: useUrlParamsToBlur ? toUrl.join(',') : toBlurUrl.join(',')
+    blurUrlParams: toBlurUrl.join(',')
   }
 
 }
@@ -315,6 +316,7 @@ class Image extends React.Component {
     if (style.display === `inherit`) {
       delete divStyle.display
     }
+
     if (fluid || fixed) {
       return (
         <div
