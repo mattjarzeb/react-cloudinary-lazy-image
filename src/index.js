@@ -11,8 +11,8 @@ const makeUrlParams = props => {
     ? quality
       ? `q_auto` : ''
     : typeof quality === `string` && quality.includes(`q_auto`)
-      ? `q_auto:${quality}`
-      : quality
+      ? quality
+      : `q_auto:${quality}`
   if (!urlParams || !urlParams.length) {
     urlParams = 'c_lfill'
     if (fluid && !fluid.height) urlParams = 'c_scale'
@@ -37,7 +37,6 @@ const makeUrlParams = props => {
 
 // Cache if we've seen an image before so we don't both with
 // lazy-loading & fading in on subsequent mounts.
-const imageCache = {}
 const inImageCache = props => {
   const image = props.fluid || props.fixed
   let { urlParams } = makeUrlParams(props)
@@ -47,10 +46,16 @@ const inImageCache = props => {
   // Find src
   const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.version}/${props.imageName}`
 
-  if (imageCache[src]) {
-    return true
-  } else {
-    imageCache[src] = true
+  try {
+    const cache = JSON.parse(window.localStorage.getItem('seen_images')) || {}
+    if (cache[src]) {
+      return true
+    } else {
+      cache[src] = true
+      window.localStorage.setItem('seen_images', JSON.stringify(cache))
+      return false
+    }
+  } catch (e) {
     return false
   }
 }
@@ -58,7 +63,7 @@ const inImageCache = props => {
 let io
 const listeners = []
 
-function getIO () {
+function getIO (IOParams) {
   if (
     typeof io === `undefined` &&
     typeof window !== `undefined` &&
@@ -78,15 +83,15 @@ function getIO () {
           })
         })
       },
-      { rootMargin: `200px` }
+      { ...IOParams }
     )
   }
 
   return io
 }
 
-const listenToIntersections = (el, cb) => {
-  getIO().observe(el)
+const listenToIntersections = (el, IOParams, cb) => {
+  getIO(IOParams).observe(el)
   listeners.push([el, cb])
 }
 
@@ -181,7 +186,7 @@ class Image extends React.Component {
 
   handleRef (ref) {
     if (this.state.IOSupported && ref) {
-      listenToIntersections(ref, () => {
+      listenToIntersections(ref, this.props.IOParams, () => {
         this.setState({ isVisible: true })
       })
     }
@@ -376,7 +381,10 @@ Image.defaultProps = {
   imgFormat: true,
   quality: true,
   blurSize: 20,
-  useUrlParamsToBlur: false
+  useUrlParamsToBlur: false,
+  IOParams: {
+    rootMargin: '200px'
+  }
 }
 
 const fixedObject = PropTypes.shape({
@@ -410,7 +418,8 @@ Image.propTypes = {
   version: PropTypes.string,
   blurSize: PropTypes.number,
   blurUrlParams: PropTypes.string,
-  useUrlParamsToBlur: PropTypes.bool
+  useUrlParamsToBlur: PropTypes.bool,
+  IOParams: PropTypes.object
 }
 
 export default Image
