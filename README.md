@@ -109,5 +109,6 @@ by setting `urlParams`. You can also find all formats that can be passed to `img
 | `blurSize`         | `number`          | Width of the low quality image. Default = 20.                                                                                                         |
 | `blurUrlParams`    | `string`          | Cloudinary image transformations params for blur version.                                                                                             |
 | `useUrlParamsToBlur`| `bool`           | Flag to use `urlParams` for blur version. Overrides `blurUrlParams`.                                                                                  |
+| `IOParams`         | `object`          | Passed to window.intersectionObserver options. Default: `{ rootMargin: '200px' }`                                                                     |
 
 
