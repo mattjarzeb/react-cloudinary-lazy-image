@@ -47,12 +47,12 @@ const inImageCache = props => {
   const src = `https://res.cloudinary.com/${props.cloudName}/image/upload/${urlParams}/${props.version}/${props.imageName}`
 
   try {
-    const cache = JSON.parse(window.localStorage.getItem('seen_images')) || {}
+    const cache = JSON.parse(window.sessionStorage.getItem('seen_images')) || {}
     if (cache[src]) {
       return true
     } else {
       cache[src] = true
-      window.localStorage.setItem('seen_images', JSON.stringify(cache))
+      window.sessionStorage.setItem('seen_images', JSON.stringify(cache))
       return false
     }
   } catch (e) {
