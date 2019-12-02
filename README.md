@@ -94,7 +94,7 @@ by setting `urlParams`. You can also find all formats that can be passed to `img
 | `fadeIn`           | `bool`            | Defaults to fading in the image on load                                                                                                               |
 | `cloudName`        | `string`          | Cloudinary cloud name, _default_=process.env.CLOUD_NAME or process.env.REACT_APP_CLOUD_NAME                                                           |
 | `imageName`        | `string`          | Cloudinary publicId                                                                                                                                   |
-| `urlParams`        | `string`          | Cloudinary image transformations params. Overrides default 'c_lfill' or 'c_scale'                                                                     |
+| `urlParams`        | `string`          | Cloudinary image transformations params. Overrides default 'c_lfill' or 'c_scale'. If both weight and height (w_, h_) params are set srcSet will not be created.|
 | `title`            | `string`          | Passed to the `img` element                                                                                                                           |
 | `alt`              | `string`          | Passed to the `img` element                                                                                                                           |
 | `style`            | `object`          | Spread into the default styles of the wrapper element                                                                                                 |

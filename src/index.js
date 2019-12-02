@@ -34,6 +34,11 @@ const makeUrlParams = props => {
   }
 
 }
+const detectWithAndHeight = (text) => {
+  const widthReg = new RegExp(/w_\d+/)
+  const heightReg = new RegExp(/h_\d+/)
+  return !!(text.match(widthReg) && text.match(heightReg))
+}
 
 // Cache if we've seen an image before so we don't both with
 // lazy-loading & fading in on subsequent mounts.
@@ -294,8 +299,8 @@ class Image extends React.Component {
         right: 0,
         left: 0
       }
-      srcSet = this.createBrakePointsFluid(urlParams)
-      urlParams = `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
+      srcSet = !detectWithAndHeight(urlParams) && this.createBrakePointsFluid(urlParams)
+      urlParams = detectWithAndHeight(urlParams) ? urlParams : `${urlParams},w_${image.maxWidth}${image.height ? `,h_${image.height}` : ''}`
     }
     if (fixed) {
       image = fixed
@@ -314,8 +319,8 @@ class Image extends React.Component {
         opacity: !this.state.imgLoaded ? 1 : 0,
         transitionDelay: `0.25s`
       }
-      srcSet = this.createBrakePointsFixed(urlParams)
-      urlParams = `${urlParams},w_${image.width},h_${image.height}`
+      srcSet = !detectWithAndHeight(urlParams) && this.createBrakePointsFixed(urlParams)
+      urlParams = detectWithAndHeight(urlParams) ? urlParams : `${urlParams},w_${image.width},h_${image.height}`
     }
 
     if (style.display === `inherit`) {
@@ -350,7 +355,7 @@ class Image extends React.Component {
               alt={alt}
               title={title}
               src={`https://res.cloudinary.com/${cloudName}/image/upload/${urlParams}/${this.props.version}/${imageName}`}
-              srcSet={srcSet}
+              srcSet={srcSet || ''}
               style={imageStyle}
               ref={this.imageRef}
               onLoad={this.handleImageLoaded}
