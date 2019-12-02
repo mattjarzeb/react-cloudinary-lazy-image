@@ -1,6 +1,6 @@
 {
   "name": "react-cloudinary-lazy-image",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Lazy-loading React image component based on Cloudinary api",
   "main": "index.js",
   "repository": "https://github.com/mattjarzeb/react-cloudinary-lazy-image",
